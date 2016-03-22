@@ -11,11 +11,10 @@ class Main {
         Scanner s = new Scanner(System.in);
         ArrayList<String> list = new ArrayList<String>();
 
+        /* This code is too general - reads also empty lines */
         while (s.hasNextLine()){
             list.add(s.nextLine());
         }
-        /* Do not create any list if there was no input */
-        if(list.size() == 0) System.exit(0);
 
         Exercise e1 = new Exercise(list);
 
@@ -23,6 +22,8 @@ class Main {
         System.exit(0);
     }
 }
+
+/* 71 -> Num -> parsing empty string */
 
 class Exercise {
     private int numTests;
@@ -33,29 +34,41 @@ class Exercise {
 
     public Exercise(ArrayList <String> list) {
         this.inputlist = list;      /* input given to the program          */
-        current_index = 0;
+        this.current_index = 0;
     }
 
     public void run()
     {
+        /* Just return if there's nothing to do */
+        if(this.inputlist.size() == 0) return;
+
         /* number of tests */
         this.numTests = Integer.parseInt(this.inputlist.get(this.current_index)); /* array[0] */
 
         /* Prevent errors in case number of tests is 0 */
         if(this.numTests <= 0) return;
 
+
         this.current_index = 1; /* first matrix dimension */
 
         while (this.current_index < this.inputlist.size()) { /* go through all matrices */
             int maximum;
 
-            if(!createIntMatrix()) { /* skip zero dimension matrices */
-                System.out.println("0");
-                current_index++;
-                continue;
+            /* abort on empty lines */
+            if(this.inputlist.get(this.current_index) == "") break;
+
+            try {
+                if(!createIntMatrix()) { /* skip zero dimension matrices */
+                    System.out.println("0");
+                    this.current_index++;
+                    continue;
+                }
+            } catch (Exception e) {
+                break;
             }
 
             createPrefixMatrix();
+
             maximum = maxMatrixSum();
 
             System.out.println("" + maximum);
@@ -63,8 +76,10 @@ class Exercise {
     }
 
     private boolean createIntMatrix() {
+        int dimension;
+
         /* Dimension only used locally - length used to derive in other methods */
-        int dimension = Integer.parseInt(this.inputlist.get(this.current_index));
+        dimension = Integer.parseInt(this.inputlist.get(this.current_index));
 
         if(dimension <= 0) {
             return false;
@@ -79,13 +94,20 @@ class Exercise {
         /* Convert lines to int Matrix */
         for(int i = 0; i < dimension; i++, this.current_index++) { /* increment both index and row number */
             String line = this.inputlist.get(this.current_index);
-            String []elements = line.split(" ");
+            Scanner sc = new Scanner(line);
 
-            /* save row into matrix */
+            /* save row into matrix -- abort if row does not match dimension */
             for(int j = 0; j < dimension; j++) {
-                this.matrix[i][j] = Integer.parseInt(elements[j]);
+
+                if(sc.hasNextInt()) {
+                    this.matrix[i][j] = sc.nextInt();
+                } else { /* matrix dimension mismatch with actual values */
+                    System.err.println("Dimension mismatch");
+                    return false;
+                }
             }
         }
+        //        printMatrix("intmatrix", this.matrix);
         return true;
     }
 
