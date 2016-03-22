@@ -104,7 +104,12 @@ class Exercise {
     {
         int dimension          = this.matrix.length;
         int [] prefix          = new int[dimension];
-        int bestSolution       = 0;
+        int bestSolution;
+
+        if(matrix[0][0] > 0)
+            bestSolution = matrix[0][0];
+        else
+            bestSolution = 0;
 
         for (int i = 0; i < dimension; i++) {
             for(int j = 0; j < dimension; j++) {
