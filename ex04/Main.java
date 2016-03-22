@@ -1,10 +1,10 @@
 /* Hints:
  * - https://en.wikipedia.org/wiki/Maximum_subarray_problem
+ * - http://stackoverflow.com/questions/2643908/getting-the-submatrix-with-maximum-sum
  */
 
 import java.io.*;
 import java.util.*; /* Scanner, Arraylist */
-
 
 class Main {
     public static void main(String[] args) throws IOException {
@@ -14,12 +14,12 @@ class Main {
         while (s.hasNextLine()){
             list.add(s.nextLine());
         }
+        /* Do not create any list if there was no input */
+        if(list.size() == 0) System.exit(0);
 
         Exercise e1 = new Exercise(list);
 
-        e1.aufgabe43();
-
-        // Required by Judge
+        e1.run();
         System.exit(0);
     }
 }
@@ -36,28 +36,39 @@ class Exercise {
         current_index = 0;
     }
 
-    public void aufgabe43()
+    public void run()
     {
         /* number of tests */
         this.numTests = Integer.parseInt(this.inputlist.get(this.current_index)); /* array[0] */
 
+        /* Prevent errors in case number of tests is 0 */
+        if(this.numTests <= 0) return;
+
         this.current_index = 1; /* first matrix dimension */
 
         while (this.current_index < this.inputlist.size()) { /* go through all matrices */
-            createIntMatrix();
+            int maximum;
+
+            if(!createIntMatrix()) { /* skip zero dimension matrices */
+                System.out.println("0");
+                current_index++;
+                continue;
+            }
+
             createPrefixMatrix();
+            maximum = maxMatrixSum();
 
-            System.out.println("" + maxMatrixSum());
-            // System.out.println("" + findMaximumSubMatrix(this.matrix));
-
+            System.out.println("" + maximum);
         }
     }
 
-    private void createIntMatrix() {
+    private boolean createIntMatrix() {
+        /* Dimension only used locally - length used to derive in other methods */
         int dimension = Integer.parseInt(this.inputlist.get(this.current_index));
 
-        // Debug
-        // System.err.println("Matrix dim: " + dimension + "x" + dimension);
+        if(dimension <= 0) {
+            return false;
+        }
 
         /* create empty int matrix */
         this.matrix = new int[dimension][dimension];
@@ -67,7 +78,6 @@ class Exercise {
 
         /* Convert lines to int Matrix */
         for(int i = 0; i < dimension; i++, this.current_index++) { /* increment both index and row number */
-
             String line = this.inputlist.get(this.current_index);
             String []elements = line.split(" ");
 
@@ -76,12 +86,10 @@ class Exercise {
                 this.matrix[i][j] = Integer.parseInt(elements[j]);
             }
         }
-
-        // Debug
-        // printMatrix("Intmatrix", this.matrix);
+        return true;
     }
 
-    /* Create Matrix with Prefix values */
+    /* Create Matrix with Prefix values, used in Exercise 4 */
     private void createPrefixMatrix() {
         int dimension = this.matrix.length;
         this.prefix_matrix = new int[dimension][dimension];
@@ -97,14 +105,11 @@ class Exercise {
                 this.prefix_matrix[i][j] = this.prefix_matrix[i-1][j] + this.matrix[i][j];
             }
         }
-
-        // Debug
-        // printMatrix("Prefixmatrix", this.prefix_matrix);
     }
 
     private int maxMatrixSum()
     {
-        int dimension          = this.matrix.length;
+        int dimension = this.matrix.length;
         int bestSolution;
 
         if(matrix[0][0] > 0)
