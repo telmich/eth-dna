@@ -121,6 +121,7 @@ class Aufgabe32 {
             System.out.println("c = " + c + " nicht gefunden"  + " steps: " + steps);
     }
 
+    /* Lösung in O(n * log (n)) durch sortieren und binärer Suche! */
     public boolean aufgabe32a(int []zahlen, int summeZuSuchen)
     {
         found = false;
@@ -151,7 +152,7 @@ class Aufgabe32 {
         return found;
     }
 
-
+    /* Lösung in O(n) durch sortieren und binärer Suche! */
     public boolean aufgabe32b(int []zahlen, int summeZuSuchen)
     {
         found = false;
@@ -192,6 +193,7 @@ class Aufgabe32 {
 
     }
 
+    /* this algorithm does NOT check if a = c or b = c */
     public void aufgabe32c(int []zahlen) {
         boolean found_c = false;
 
