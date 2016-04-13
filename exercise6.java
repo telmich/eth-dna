@@ -62,6 +62,9 @@ public class exercise6 {
         MarsMission m2 = new MarsMission(steine2);
         m2.findAndPrint();
 
+        Main mymain = new Main();
+        mymain.main(args);
+
     }
 }
 
@@ -196,6 +199,10 @@ die jeweils benötigten anderen Einträge bereits vorher berechnet wurden?
 
 
 
+- Algorithmus: See MarsMission, findSolution.
+- Laufzeit: m*n*2
+
+
 */
 
 class MarsMission {
@@ -287,6 +294,9 @@ class MarsMission {
         int i = maxeast-1, j = maxsouth-1;
         int i_previous, j_previous;
 
+        System.out.print("(" + i + ", ");
+        System.out.println("" + j + ") ");
+
         while(i != 0 || j != 0) {
             i_previous = solution[i][j][1];
             j_previous = solution[i][j][2];
@@ -350,3 +360,192 @@ erste Zahl enthält die Anzahl v erschiedener Arten von Gegenständen n ≤ 5000
 n Ganzzahlen ai ≤ 2000 mit 1 ≤ i ≤ n,
 
  */
+
+
+class Main {
+    public static void main(String[] args) throws IOException {
+        Scanner s = new Scanner(System.in);
+
+        int testCases = s.nextInt();
+
+        while(s.hasNextInt())
+            {
+                int num_items = s.nextInt();
+                int []items = new int[num_items];
+                for(int i = 0; i < num_items; i++) {
+                    items[i] = s.nextInt();
+                }
+                Exercise06 ex = new Exercise06(items);
+                ex.run();
+            }
+
+        System.exit(0);
+    }
+}
+
+/* Gesucht: Anzahl uniquer 3er Gruppen??
+
+        n!
+      -------
+      (n-k)!
+
+      k = 3
+
+Nein!
+
+4 verschieden Arten von Gegenständen:
+1 1 1 20 = 1
+
+1 Artikel vom Typ 1
+1 Artikel vom Typ 2
+1 Artikel vom Typ 3
+20 Artikel vom Typ 4
+
+Maximalbetrag beim Umtauschen gesucht!!!!
+
+ */
+
+class Exercise06
+{
+    int []items;
+    int []sorted_items;
+    // Set<Integer> unique_items;
+    int result;
+
+    QuickSort2 qs;
+
+    public Exercise06(int []items)
+    {
+        this.items = items;
+        result = 0;
+
+        qs = new QuickSort2(this.items);
+    }
+
+    public void run()
+    {
+        // printInput();
+        // makeUnique();
+        printDebug();
+        // qs.run();
+
+        sorted_items = qs.run();
+        printDebug();
+
+        // calculate();
+        // printSolution();
+    }
+
+    // void makeUnique()
+    // {
+    //     unique_items = new HashSet<Integer>(items.length);
+
+    //     for(int i=0; i < items.length; i++)
+    //         {
+    //             unique_items.add(items[i]);
+    //         }
+
+    // }
+
+    void printDebug()
+    {
+        System.out.print("[ ... ");
+        for(int i=0; i < items.length; i++) {
+            System.out.print(" " + items[i]);
+        }
+        System.out.println(" ... ]");
+
+    }
+    // void calculate()
+    // {
+    //     if(unique_items.size() < 3) result = 0;
+    //     else {
+    //         result = factorial(unique_items.size()) / (factorial(unique_items.size() - 3));
+    //     }
+    // }
+
+    // int factorial(int n)
+    // {
+    //     int result = 1;
+
+    //     if(n < 2) return result;
+
+    //     return n * factorial(n-1);
+
+    // }
+
+    void printSolution()
+    {
+        System.out.println("" + result);
+    }
+
+    void printInput()
+    {
+        for(int i = 0; i < items.length; i++)
+            {
+                System.out.print(" " + items[i]);
+            }
+        System.out.println("");
+    }
+}
+
+class QuickSort2 {
+
+    public int [] to_sort;
+
+    public QuickSort2(int []arr) {
+        this.to_sort = arr;
+        System.out.println("test2");
+    }
+
+    public int [] run()
+    {
+        System.out.println("test");
+		int low = 0;
+		int high = to_sort.length - 1;
+
+        quickSort(to_sort, low, high);
+
+        return to_sort;
+    }
+
+
+	public static void quickSort(int[] arr, int low, int high) {
+		if (arr == null || arr.length == 0)
+			return;
+
+		if (low >= high)
+			return;
+
+		// pick the pivot
+		int middle = low + (high - low) / 2;
+		int pivot = arr[middle];
+
+		// make left < pivot and right > pivot
+		int i = low, j = high;
+		while (i <= j) {
+			while (arr[i] < pivot) {
+				i++;
+			}
+
+			while (arr[j] > pivot) {
+				j--;
+			}
+
+			if (i <= j) {
+				int temp = arr[i];
+				arr[i] = arr[j];
+				arr[j] = temp;
+				i++;
+				j--;
+			}
+		}
+
+		// recursively sort two sub parts
+		if (low < j)
+			quickSort(arr, low, j);
+
+		if (high > i)
+			quickSort(arr, i, high);
+	}
+}
