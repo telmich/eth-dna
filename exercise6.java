@@ -408,9 +408,13 @@ Maximalbetrag beim Umtauschen gesucht!!!!
 class Exercise06
 {
     int []items;
-    int []sorted_items;
-    // Set<Integer> unique_items;
     int result;
+
+    int first;
+    int middle;
+    int last;
+
+    boolean somethingLeft;
 
     QuickSort2 qs;
 
@@ -420,59 +424,56 @@ class Exercise06
         result = 0;
 
         qs = new QuickSort2(this.items);
+
+        somethingLeft = true;
     }
 
     public void run()
     {
-        // printInput();
-        // makeUnique();
-        printDebug();
-        // qs.run();
 
-        sorted_items = qs.run();
+
+
         printDebug();
 
-        // calculate();
-        // printSolution();
+        calculate();
+        printSolution();
     }
-
-    // void makeUnique()
-    // {
-    //     unique_items = new HashSet<Integer>(items.length);
-
-    //     for(int i=0; i < items.length; i++)
-    //         {
-    //             unique_items.add(items[i]);
-    //         }
-
-    // }
 
     void printDebug()
     {
-        System.out.print("[ ... ");
+        System.err.print("[ ... ");
         for(int i=0; i < items.length; i++) {
-            System.out.print(" " + items[i]);
+            System.err.print(" " + items[i]);
         }
-        System.out.println(" ... ]");
+        System.err.println(" ... ]");
 
     }
-    // void calculate()
-    // {
-    //     if(unique_items.size() < 3) result = 0;
-    //     else {
-    //         result = factorial(unique_items.size()) / (factorial(unique_items.size() - 3));
-    //     }
-    // }
 
-    // int factorial(int n)
-    // {
-    //     int result = 1;
+    void calculate()
+    {
+        /* no need to sort anything with less than 3 items */
+        if(items.length < 3) return;
 
-    //     if(n < 2) return result;
+        int first  = items.length -1;
+        int second = items.length -2;
+        int third  = items.length -3;
 
-    //     return n * factorial(n-1);
+        do {
+            items = qs.run(items);
 
-    // }
+            if(items[third] > 0) { /* if at least three have a chance -> change them! */
+                items[first]--;
+                items[second]--;
+                items[third]--;
+                result++;
+            } else {
+                somethingLeft = false;
+            }
+
+            printDebug();
+
+        } while(somethingLeft);
+    }
 
     void printSolution()
     {
@@ -483,26 +484,29 @@ class Exercise06
     {
         for(int i = 0; i < items.length; i++)
             {
-                System.out.print(" " + items[i]);
+                System.err.print(" " + items[i]);
             }
-        System.out.println("");
+        System.err.println("");
     }
 }
 
-class QuickSort2 {
+class MySort {
 
     public int [] to_sort;
 
-    public QuickSort2(int []arr) {
+    public MySort(int []arr) {
         this.to_sort = arr;
-        System.out.println("test2");
     }
 
-    public int [] run()
+    public int [] run(int []to_sort)
     {
-        System.out.println("test");
+
+        this.to_sort = to_sort;
+
+
 		int low = 0;
 		int high = to_sort.length - 1;
+
 
         quickSort(to_sort, low, high);
 
