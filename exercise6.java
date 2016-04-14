@@ -5,7 +5,7 @@ import java.util.*; /* Scanner, Arraylist */
 /* TODO: Prinzip dynamischer Programmierung auf Marssondenweg anwenden */
 
 
-public class exercise6 {
+class exercise6 {
     public static void main(String[] args) throws IOException {
 
         /* DP tests */
@@ -116,7 +116,7 @@ class DP {
 
 
 /* Infos
- * 7.4 Längste gemeinsam Teilfolge
+ * 7.4 Laengste gemeinsam Teilfolge
  * 10.2 Editierdistanz
  */
 
@@ -125,7 +125,7 @@ class DP {
 
 /* Aufgabe 6.1: Marsmission
 
- * Ost/Süd Bewegungen möglich
+ * Ost/Sued Bewegungen moeglich
  * ges.: Weg mit maximalen Wert
  * Methode: odynamischen Programmierung
  * Eingabe: mxn Matrix, A[1,1] = A[m,n] = 0
@@ -139,7 +139,7 @@ S 9 2 5 11 8
 8 2 8 11 15 9
 0 5 3 10 4 Z
 
- (1, 1) → (2, 1) → (2, 2) → (2, 3) → (2, 4) → · · · → (5, 6).
+ (1, 1) -> (2, 1) -> (2, 2) -> (2, 3) -> (2, 4) -> 54 -> (5, 6).
 
 
 - Need to save / store the way (x,y coordinates)
@@ -151,13 +151,13 @@ S 9 2 5 11 8
 1) Definition der DP-Tabelle: Welche Dimensionen hat die Tabelle? Was ist die Bedeutung
 jedes Eintrags?
 
-Tabelle enthält Werte für den zurückgelegten Weg, kommen von einem spezifischen Feld
+Tabelle enthaelt Werte fuer den zurueckgelegten Weg, kommen von einem spezifischen Feld
 Beispiel (Tabelle Aufgabe)
 
   Start -> S -> S  = 0 + 17 + 2 = 19
   Start -> S -> O -> O = 0 + 17 + 21 + 32 = ...
 
-Wir müssen nur sämtliche möglichen Weg abbilden können, somit alle S/O-Kombinationen:
+Wir muessen nur saemtliche moeglichen Weg abbilden koennen, somit alle S/O-Kombinationen:
 
 
    O------------------->
@@ -173,29 +173,29 @@ O -> S ist das gleiche wie S -> O!
 S S O = 17 + 2 + 2 = 21
 O S S = 9 + 21 + 2 = 32
 
-Müssen uns merken, von welcher Richtung das Maximum erreicht wurde:
+Muessen uns merken, von welcher Richtung das Maximum erreicht wurde:
 
 S S O = 17 + 2 + 2 = 21 (O)
 O S S = 9 + 21 + 2 = 32 (S)
 
-Können das Maximum immer überschreiben
-In jedem Feld 2 Arme aufmachen für S/O.
+Koennen das Maximum immer ueberschreiben
+In jedem Feld 2 Arme aufmachen fuer S/O.
 
 
-Tabelle der Grösse m * n * 2 [Maximum + Richtung]
+Tabelle der Groesse m * n * 2 [Maximum + Richtung]
 
 
 2) Berechnung eines Eintrags: Wie berechnet sich ein Eintrag aus den Werten von anderen
-Einträgen? Welche Einträge hängen nicht von anderen Einträgen ab?
+Eintraegen? Welche Eintraege haengen nicht von anderen Eintraegen ab?
 
-Der Eintrag in der Tabelle benötigt den Wert des bisherigen Weges.
+Der Eintrag in der Tabelle benoetigt den Wert des bisherigen Weges.
 
-3) Berechnungsreihenfolge: In welcher Reihenfolge kann man die Einträge berechnen, so dass
-die jeweils benötigten anderen Einträge bereits vorher berechnet wurden?
+3) Berechnungsreihenfolge: In welcher Reihenfolge kann man die Eintraege berechnen, so dass
+die jeweils benoetigten anderen Eintraege bereits vorher berechnet wurden?
 
 
 
-4) Auslesen der Lösung: Wie lässt sich die Lösung am Ende aus der Tabelle auslesen?
+4) Auslesen der Loesung: Wie laesst sich die Loesung am Ende aus der Tabelle auslesen?
 
 
 
@@ -327,37 +327,42 @@ class MarsMission {
 
 /* Aufgabe 6.2: Selbstanordnende Listen.
 
-Gesucht: #Schlüsselvergleiche
+Gesucht: #Schluesselvergleiche
 
-A −→ L −→ G −→ O −→ R −→ I −→ T −→ H −→ M −→ U −→ S
+A --> L --> G --> O --> R --> I --> T --> H --> M --> U --> S
 
-Zugriff: ’R’, ’A’, ’I’, ’S’, ’T’, ’A’, ’A’, ’G’
+Zugriff: 'R', 'A', 'I', 'S', 'T', 'A', 'A', 'G'
 
-’R’: 5
-  R -> A −→ L −→ G −→ O  −→ I −→ T −→ H −→ M −→ U −→ S
-’A’: 2
-  A-> R -> L −→ G −→ O  −→ I −→ T −→ H −→ M −→ U −→ S
-’I’: 6
-  I -> A-> R -> L −→ G −→ O −→ T −→ H −→ M −→ U −→ S
-’S’: 11
-  S -> I -> A-> R -> L −→ G −→ O −→ T −→ H −→ M −→ U
-’T’: 8
-  T ->  S -> I -> A-> R -> L −→ G −→ O  −→ H −→ M −→ U
-’A’: 4
-  A -> T ->  S -> I -> R -> L −→ G −→ O  −→ H −→ M −→ U
-’A’: 1
-  A -> T ->  S -> I -> R -> L −→ G −→ O  −→ H −→ M −→ U
-’G’: 7
-  G -> A -> T ->  S -> I -> R -> L −→ O  −→ H −→ M −→ U
+'R': 5
+  R -> A --> L --> G --> O  --> I --> T --> H --> M --> U --> S
+'A': 2
+  A-> R -> L --> G --> O  --> I --> T --> H --> M --> U --> S
+'I': 6
+  I -> A-> R -> L --> G --> O --> T --> H --> M --> U --> S
+'S': 11
+  S -> I -> A-> R -> L --> G --> O --> T --> H --> M --> U
+'T': 8
+  T ->  S -> I -> A-> R -> L --> G --> O  --> H --> M --> U
+'A': 4
+  A -> T ->  S -> I -> R -> L --> G --> O  --> H --> M --> U
+'A': 1
+  A -> T ->  S -> I -> R -> L --> G --> O  --> H --> M --> U
+'G': 7
+  G -> A -> T ->  S -> I -> R -> L --> O  --> H --> M --> U
 
 Total: 44
 
 */
 
-/* 6.3: 3 verschiedene Gegenstände: 1 CHF
+/* 6.3: 3 verschiedene Gegenstaende: 1 CHF
 
-erste Zahl enthält die Anzahl v erschiedener Arten von Gegenständen n ≤ 5000
-n Ganzzahlen ai ≤ 2000 mit 1 ≤ i ≤ n,
+erste Zahl enthaelt die Anzahl v erschiedener Arten von Gegenstaenden n 5000
+n Ganzzahlen ai <= 2000 mit 1 <= i <= n,
+
+Array Bucket[] benutzen, Bucket[k], wie viele verschiedene Gegenstände Arten
+mit k Gegenständen verfügbar
+
+-> Liste mit Anzahl Arten mit gleicher Anzahl
 
  */
 
@@ -393,7 +398,7 @@ class Main {
 
 Nein!
 
-4 verschieden Arten von Gegenständen:
+4 verschieden Arten von Gegenstaenden:
 1 1 1 20 = 1
 
 1 Artikel vom Typ 1
@@ -410,32 +415,38 @@ class Exercise06
     int []items;
     int result;
 
-    int first;
-    int middle;
-    int last;
+    int firstTime;
+    int highest;
+
+    int count;
+    int []lastThree;
 
     boolean somethingLeft;
 
-    QuickSort2 qs;
+    MySort sort;
+
+    HashMap<Integer, Integer> map;
 
     public Exercise06(int []items)
     {
         this.items = items;
         result = 0;
+        highest = 0;
 
-        qs = new QuickSort2(this.items);
+        sort = new MySort();
 
         somethingLeft = true;
+
+        map = new HashMap<Integer, Integer>();
+
+        count = 0;
+        lastThree = new int[3];
     }
 
     public void run()
     {
-
-
-
-        printDebug();
-
-        calculate();
+        //   calculate_by_sort();
+        calculateWithMap();
         printSolution();
     }
 
@@ -449,7 +460,112 @@ class Exercise06
 
     }
 
-    void calculate()
+    void printDebugMap()
+    {
+        Iterator<Integer> keySetIterator = map.keySet().iterator();
+        while(keySetIterator.hasNext()){
+            Integer key = keySetIterator.next();
+            System.err.println("key: " + key + " value: " + map.get(key));
+        }
+    }
+
+    /* Take the three highest, add +1, decrement the item
+
+     */
+    void calculateWithMap()
+    {
+        createNumberMap();
+        takeThreeHighest();
+        printDebugMap();
+    }
+
+    /* This can be a bit smarter - maybe storing the possible values outside? */
+    /* Collection values(): It returns a collection of values of map. */
+    boolean findNextHighest()
+    {
+        boolean moreThanZero = true;
+
+        while(highest > 0) {
+            if(map.containsKey(highest)) {
+                break;
+            } else {
+                highest--;
+            }
+        }
+        if(highest == 0) moreThanZero = false;
+
+        return moreThanZero;
+    }
+
+    /* take the highest available element count and take it out of the map */
+    void takeHighest()
+    {
+        int countHigh;
+
+        /* get the number of items at the highest count */
+        countHigh = map.get(highest);
+
+        lastThree[count] = highest - 1; /* save the next position */
+
+        /* Update map:
+         * Either reduce amount or delete key, if it was the last one
+         */
+        if(countHigh == 1) {
+            map.remove(highest);
+        } else {
+            map.put(highest, countHigh-1);
+        }
+        count++;
+
+        /* insert values back into map after three have been taken */
+        if(count == 3)
+            {
+                result++;
+                count = 0;
+
+                insertNumInMap(lastThree[0]);
+                insertNumInMap(lastThree[1]);
+                insertNumInMap(lastThree[2]);
+            }
+
+    }
+
+    void takeThreeHighest()
+    {
+        /* As long as there are more elements than zero, continue */
+        while(highest > 0) {
+            /* Stop if highest is zero */
+            if(!findNextHighest()) break;
+
+            /* take highest */
+            takeHighest();
+        }
+    }
+
+    /* Store number of items w/ same number of items in array (?)
+     * Maybe use a hashlist to store item?
+     */
+    void createNumberMap()
+    {
+        for(int i=0; i < items.length; i++) {
+            if(items[i] > highest) highest = items[i];
+            insertNumInMap(items[i]);
+        }
+    }
+
+    void insertNumInMap(int num)
+    {
+        int value = 1;
+
+
+        if(map.containsKey(num)) {
+            value += map.get(num);
+        }
+        System.err.println("Insert in map: " + num + " -> " + value);
+        map.put(num, value);
+    }
+
+    void calculate_by_sort()
     {
         /* no need to sort anything with less than 3 items */
         if(items.length < 3) return;
@@ -459,7 +575,7 @@ class Exercise06
         int third  = items.length -3;
 
         do {
-            items = qs.run(items);
+            items = sort.run(items);
 
             if(items[third] > 0) { /* if at least three have a chance -> change them! */
                 items[first]--;
@@ -470,7 +586,7 @@ class Exercise06
                 somethingLeft = false;
             }
 
-            printDebug();
+            //            printDebug();
 
         } while(somethingLeft);
     }
@@ -493,24 +609,44 @@ class Exercise06
 class MySort {
 
     public int [] to_sort;
+    boolean firstTime;
 
-    public MySort(int []arr) {
-        this.to_sort = arr;
+    public MySort() {
+        firstTime = true;
     }
+
 
     public int [] run(int []to_sort)
     {
-
         this.to_sort = to_sort;
 
+        if(firstTime) {
+            run_qs();
+            firstTime = false;
+        } else {
+            run_insertionSort();
+        }
 
+        return this.to_sort;
+    }
+
+    public void run_qs()
+    {
 		int low = 0;
 		int high = to_sort.length - 1;
 
-
         quickSort(to_sort, low, high);
+    }
 
-        return to_sort;
+    public void run_insertionSort()
+    {
+        for(int i=1; i < to_sort.length; i++) {
+            int temp = to_sort[i];
+            int j;
+            for(j = i-1; j >= 0 && temp < to_sort[j]; j--)
+                to_sort[j+1] = to_sort[j];
+            to_sort[j+1] = temp;
+        }
     }
 
 
@@ -552,4 +688,6 @@ class MySort {
 		if (high > i)
 			quickSort(arr, i, high);
 	}
+
+
 }
