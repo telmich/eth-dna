@@ -1,0 +1,221 @@
+#+STARTUP keywords inlineimages
+* Admin / Allgemeines
+** Th. Ottmann, P.Widmayer: Algorithmen und Datenstrukturen, Spektrum-Verlag, 5. Auflage, Heidelberg, Berlin, Oxford, 2011
+** Wednesday 12-13: answer section
+* Themen / Zusammenfassung
+** Laufzeiten
+   T(n) abhängig von n
+** Suchen
+*** Übersicht: http://www.sorting-algorithms.com/
+*** Quicksort
+        http://stackoverflow.com/questions/10425506/intuitive-explanation-for-why-quicksort-is-n-log-n
+        O(n * log n):
+            The log n part comes from the fact that it's (at least ideally) breaking the input
+            in half at each iteration. Starting from N items, and
+            breaking those in half each
+            time means that you're down to 1 item after log2(N)
+            iterations, at which point
+            you obviously can't subdivide it any further. For example, starting from, say, 128 items, you divide into groups of 64, 32, 16, 8, 4, 2, 1 items -- 7 iterations (and log2(128) = 7).
+
+*** Selbstanordnende lineare Listen: 180ff.
+**** MF-Regel: Move-to-Front: zugegriffenes Element nach vorne verschieben
+**** T-Rgel (Transpose): Vertausche mit dem vorangehendem beim Zugriff
+**** FC-Regel (Frequency-Count): Häufigkeitszähler, Liste neu geordnet nach Zugriff
+**** Kosten für Zugriff auf Element an Position i: i
+**** Die T-Regel ist schlechter als die FC-Regel; die MF-Regel und die FC-Regel sind vergleichbar gut, die MF-Regel ist allerdings in manchen Fällen besser.
+** Hashverfahren S. 192ff
+    Zwei Schlüssel k, k'  mit h(k) = h(k') heißen Synonyme;
+    möglichst wenige Kollisionen erstrebt
+    Kollisionen möglichst gut lösen
+    Hashtabelle der Größe m, die gerade n Schlüssel speichert
+    α = n/m, den Belegungsfaktor der Tabelle
+
+    C n der Erwartungswert für die Anzahl der betrachteten Einträge
+        der Hashtabelle bei erfolgreicher Suche,
+    C n  der Erwartungswert für die Anzahl der betrachteten Einträge der Hashtabel-
+le bei erfolgloser Suche.
+
+
+    Divisions-Rest-Methode: h(k) = k mod m
+        gute Wahl für m: Primzahl
+    Die multiplikative Methode
+        Schlüssel wird mit einer irrationalen Zahl multipliziert;
+        der ganzzahlige Anteil des Resultats wird abgeschnitten.
+
+        NICHT so wichtig
+
+    K geschwungen = Menge aller möglichen Schlüssel
+    K normal = Teilmenge von K geschwungen
+
+*** perfekte Hashfunktion:
+        K normal vorher bekannt, genügend Speicherplatz für
+        kollisionsfreie Speicherung vorhanden + K normal ist fest
+
+        Einfacher Ansatz: Schlüssel lexikographisch ordnen
+
+    Hashfunktionen zufällig aus gleichverteilter Menge Hashfunktionen
+    wählen
+        garantiert, dass schlecht gewählte Schlüsselmenge keine grosse
+        Anzahl Kollisionen hat
+
+    H geschwungen: endliche Kollektion von Hashfunktionen
+
+        H universell, falls Bruch aus Anzahl h(x) = h(y)            1
+                                             -----------        <=  -
+                                             |H geschwungen|        m
+
+
+    Delta-Funktion: Zeigt an, ob Kollision von x, y bei Hashfunktion h
+    vorliegt
+
+    Offene Hashverfahren
+        Überläufer selber in der Hashtabelle abspeichern anstatt in
+        verlinkter Liste
+
+** Dynamische Programmierung
+1) Definition der DP-Tabelle: Welche Dimensionen hat die Tabelle? Was ist die Bedeutung
+jedes Eintrags?
+2) Berechnung eines Eintrags: Wie berechnet sich ein Eintrag aus den Werten von anderen
+Einträgen? Welche Einträge hängen nicht von anderen Einträgen ab?
+3) Berechnungsreihenfolge: In welcher Reihenfolge kann man die Einträge berechnen, so dass
+die jeweils benötigten anderen Einträge bereits vorher berechnet wurden?
+1) Auslesen der Lösung: Wie lässt sich die Lösung am Ende aus der
+   Tabelle auslesen?
+*** Top-to-Bottom
+    Top-to-bottom Dynamic Programming is nothing else than ordinary
+    recursion,  enhanced with memorizing the solutions for
+    intermediate sub-problems.
+*** Bottom-to-top
+    Bottom-to-top Dynamic Programming the approach is also based on
+    storing sub-solutions in memory, but they are solved in a
+    different order (from smaller to bigger), and the resultant
+    general structure of the algorithm is not recursive. LCS algorithm
+    is a classic Bottom-to-top DP example.
+*** Backtracking
+**** Anforderungen:
+1. Die Lösung ist als Vektor a[1], a[2], . . . endlicher Länge darstellbar. Diese Länge
+muss nicht von vornherein bekannt sein.
+2. Jedes Element a[i] ist eine Möglichkeit aus einer endlichen Menge A[i].
+3. Es gibt einen effizienten Test zur Erkennung von (einer Teilmenge der) inkonsis-
+tenten Teillösungen (d.h. Kandidaten (a[1], a[2], . . . , a[i]), die sich zu keiner Lö-
+sung (a[1], a[2], . . . , a[i], a[i + 1], . . .) erweitern lassen. Die überprüften (notwen-
+digen) Bedingungen an Teillösungen werden auch als Constraints bezeichnet.
+**** Funktionsweise
+Macht Tiefensuche in einem Baum
+*** Längste gemeinsame Teilfolge 454
+    Zeit & Speicherkomplexität: O(nm)
+
+    [[./lgt.png]]
+a 1 , . . . , a n und b 1 , . . . , b m :
+LGT (n, m) =
+  LGT (n − 1, m − 1) + 1 falls a_n = b_m
+  max {LGT (n − 1, m), LGT (n, m − 1)} sonst
+
+LGT (0, m) = LGT (n, 0) = 0
+*** Prinzip
+    Werte von vorhergehenden Berechnungen beibehalten / nutzen
+
+*** TODO längste aufsteigende Teilfolge https://hackmd.io/s/VJqHLkRRe
+*** TODO Editierdistanz https://hackmd.io/s/VJqHLkRRe
+*** Optimalitätsprinzip: Teillösung muss bereits optimal sein
+** Fibonacci rekursiv
+   fib(n):
+   if(n <=2) f = 1
+   else: f = fib(n-1) + fib(n-2)
+
+   T(n) = T(n-1) + T(n-2) + Theta(1) >= Fn
+   T(n) >= 2 T(n-2) = Theta(2^(n/2))
+** Fiboncacci memorising
+   memo = {}
+   fib(n):
+   if(n in memo: return memo[n]
+   if n <= 2: f = 1
+   else f = fib(n-1) + fib(n-2)
+   memo[n] = f
+   return f
+
+   Recurses only first time called.
+   For all other calls just lookup -> Theta(1)
+   Number of non memorised calls is n
+
+   T(n) = Theta(n)
+   n memorised calls, each call is constant time
+
+** Bäume
+*** Rotieren:
+**** http://www.cise.ufl.edu/~nemo/cop3530/AVL-Tree-Rotations.pdf
+*** Suchbäume: Splay Trees
+**** Defs
+    p = parent
+    g = grand parent
+    x = node being looked for
+**** zig step: when p is the root.
+**** zig-zig step
+*** Suchbäume: optimaler Suchbaum: S. 377
+    Schlüssel ki , nach denen mit Häufigkeit ai
+    Häufigkeit bj für nicht vorhandene Objekte im Intervall (kj,kj+1)
+
+    S = {k1, ..., kN} = Menge der Schlüssel
+    ai = absolute Häufigkeit mit der nach ki gesucht wird
+    I = (k0, kn+1) offenes Intervall in dem nach Schlüssel gesucht
+    wird
+
+    bj = absolute Häufigkeit, mit der nach x E (kj, kj+1) gesucht wird
+
+    W = Gewicht des Baumes = Summe (von i) ai + Summe (von j) bj
+    [[./baum-gewicht.png]]
+
+    P = gewichtete Pfadlänge
+    [[./gewichtete-pfadlaenge.png]]
+
+*** Huffman-Kodierung (Häufigkeiten)
+    https://de.wikipedia.org/wiki/Huffman-Kodierung
+    Code muss präfixfrei sein, d. h. kein Codewort darf der Beginn eines anderen sein.
+
+    Die Grundidee ist, einen k-nären Wurzelbaum (ein Baum mit jeweils k
+    Kindern je Knoten) für die Darstellung des Codes zu verwenden. In
+    diesem sog. Huffman-Baum stehen die Blätter für die zu kodierenden
+    Zeichen, während der Pfad von der Wurzel zum Blatt das Codesymbol
+    bestimmt. Im Gegensatz zur Shannon-Fano-Kodierung wird der Baum dabei
+    von den Blättern zur Wurzel (englisch bottom-up) erstellt.
+
+    Der bei der Huffman-Kodierung gewonnene Baum liefert garantiert
+    eine optimale und präfixfreie Kodierung. D. h. es existiert kein
+    symbolbezogenes Kodierverfahren, das einen kürzeren Code
+    generieren könnte, wenn die Auftrittswahrscheinlichkeiten der
+    Symbole bekannt sind.
+
+
+    Aufbau des Baumes
+    Ermittle für jedes Quellsymbol die relative Häufigkeit,
+    d. h. zähle wie oft jedes Zeichen vorkommt und teile durch die Anzahl aller Zeichen.
+    Erstelle für jedes Quellsymbol einen einzelnen Knoten
+    (die einfachste Form eines Baumes) und notiere im/am Knoten die
+    Häufigkeit.
+
+    Wiederhole die folgenden Schritte so lange, bis nur noch ein Baum übrig ist:
+    Wähle die m Teilbäume, mit der geringsten Häufigkeit in der Wurzel.
+    Fasse diese Bäume zu einem neuen (Teil-)Baum zusammen.
+    Notiere die Summe der Häufigkeiten in der Wurzel.
+
+* Buch
+** 4: 4.1, 4.2, 4.3
+** Kapitel 5: 5.1, 5.2.1, 5.4, 5.7
+**
+* Klausur
+** 180 Minuten
+** Keine Hilfsmittel!
+**  Hashalgorithmen !
+*** Hashing
+***  quadratisches sondieren (Konfliktlösung)
+**  Schlüssel in Baum einfügen
+**  Sortieren
+***      Quicksort 1 Schritt durchführen
+***      Sortieren durch Auswahl (Selection Sort?)
+**  Suchen
+***  Binärer Suchbaum
+***      Stabile Verfahren
+**  Bäume
+**      AVL
+**      Splay
+**  Laufzeiten!
