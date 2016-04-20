@@ -53,10 +53,66 @@ Code of AGGLGSK:
 01 11 11 10 11 001 000
 
 
+-------------> it seems that the exercise CHANGED and K&L are different now...
+-------------> so let's do (a) again....
+
+(a)
+
+ 5 verschiedene Buchstaben
+
+ ges.: Kodierungsbaum
+ ges.: kodierte Wort AGGLGSK
+
+Key           A G K L S
+Freq.         9 8 8 7 7  total = 39
+Rel. Weight   ---------
+                 39
+
+1. Create nodes: A:9, G:8, ...
+
+2. Create / join trees to generate tree:
+
+0 = left, 1 = right
+
+
+   14         16
+ /    \     /   \
+L:7   S:7  G:8 K:8
+
+
+
+      23
+    /    \
+   14   A:9      16
+ /    \         /   \
+L:7   S:7      G:8 K:8
+
+
+           39
+       /       \
+      23        \
+    /    \       \
+   14   A:9      16
+ /    \         /   \
+L:7   S:7      G:8 K:8
+
+
+Code of AGGLGSK:
+
+01 10 10 000 10 001 11
+
+
 (b)
   ges.: optimaler Suchbaum
+  ges.: gewichtete Pfadlänge
 
-Intervalle zwischen zwei Schlüsseln gegeben.
+  geg.:
+  alphabetischen Ordnung der Schlüssel
+  % Zugriffe zwischen Schlüsseln
+
+  Schlüsselintervall (_,A) (A,G) (G,K) (K,L) (L,S) (S,_)
+  Häufigkeit            0    18     7     0    19    17
+
 
 
 
